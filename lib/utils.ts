@@ -87,7 +87,30 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
   )
 }
 
+// export const handleError = (error: unknown) => {
+//   console.error("error",error)
+//   throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
+// }
+
+
 export const handleError = (error: unknown) => {
-  console.error(error)
-  throw new Error(typeof error === 'string' ? error : JSON.stringify(error))
+  console.error("Error:", error);
+  
+  if (error instanceof Error) {
+    throw error; // If it's already an Error object, just re-throw it
+  }
+  
+  if (typeof error === 'string') {
+    throw new Error(error); // If it's a string, create a new Error with it
+  }
+  
+  try {
+    // Try to stringify if it's an object
+    throw new Error(JSON.stringify(error));
+  } catch (e) {
+    // Fallback if stringification fails
+    throw new Error(String(error));
+  }
 }
+
+

@@ -1,4 +1,4 @@
-import { Document, model, models, Schema } from "mongoose";
+import mongoose, { Document, model, models, Schema } from "mongoose";
 
 export interface IEvent extends Document{
     _id: string;
@@ -13,7 +13,9 @@ export interface IEvent extends Document{
     isFree: boolean;
     url?: string;
     category: {_id: string,name: string}
-    organizer: {_id: string,firstName: string, LastName: string}
+    organizer: {
+        lastName: ReactNode;_id: string,firstName: string, LastName: string
+}
 
 }
 
@@ -32,7 +34,8 @@ const EventSchema = new Schema({
     organizer: {type:Schema.Types.ObjectId,ref:'User'},
 })
 
-const Event = models.Event || model('Event', EventSchema);
+const Event =mongoose.models.Event || mongoose.model('Event', EventSchema);
 
 export default Event;
 
+//i've changed the Event to IEvent here
