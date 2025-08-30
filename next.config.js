@@ -1,32 +1,32 @@
 /** @type {import('next').NextConfig} */
-
 const nextConfig = {
-images: {
-    domains: ['utfs.io'],
+  images: {
+    domains: [
+      'via.placeholder.com',
+      'utfs.io', // UploadThing domain
+      'uploadthing.com', // UploadThing domain
+      'img.clerk.com', // Clerk profile images
+    ],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'utfs.io',
-        port: ''
+        pathname: '/f/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.clerk.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
       }
     ]
   }
 }
 
-module.exports = nextConfig;
+module.exports = nextConfig ;
 
 
 
 
-
-// const path = require('path');
-
-// module.exports = {
-//   // ... rest of Webpack configuration
-//   resolve: {
-//     alias: {
-//       "@/types": path.resolve(__dirname, "src/types"),
-//       // ... other aliases
-//     }
-//   }
-// };

@@ -39,4 +39,3 @@ const Event =mongoose.models.Event || mongoose.model('Event', EventSchema);
 
 export default Event;
 
-//i've changed the Event to IEvent here

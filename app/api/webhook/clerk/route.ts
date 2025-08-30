@@ -2,11 +2,8 @@ import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
-// import { clerkClient } from '@clerk/nextjs'
 import { clerkClient } from '@clerk/nextjs/server';
 import { NextResponse } from 'next/server'
-import { createEvent } from '@/lib/actions/event.actions'
-import { getAuth } from '@clerk/nextjs/server'
 
  
 export async function POST(req: Request) {
@@ -19,7 +16,7 @@ export async function POST(req: Request) {
   }
  
   // Get the headers
-  const headerPayload = await headers();
+  const headerPayload =  headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
@@ -57,49 +54,63 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
  
-  if(eventType === 'user.created') {
-    const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
+  // if(eventType === 'user.created') {
+  //   const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
-    // const user = {
-    //   clerkId: id,
-    //   email: email_addresses[0].email_address,
-    //   username: username!,
-    //   firstName: first_name,
-    //   lastName: last_name,
-    //   photo: image_url,
-    // }
+  //   const user = {
+  //     clerkId: id,
+  //     email: email_addresses[0].email_address,
+  //     username: username || '', // Provide fallback for username
+  //     firstName: first_name || '',
+  //     lastName: last_name || '',
+  //     photo: image_url || '',
+  //   };
+
+  //   console.log('Creating user:', user)
+  //   const newUser = await createUser(user)
+
+  //   if(newUser) {
+  //     await clerkClient.users.updateUserMetadata(id, {
+  //       publicMetadata: {
+  //         userId: newUser._id
+  //       }
+  //     })
+  //   }
+
+  //   return NextResponse.json({ message: 'OK', user: newUser })
+  // }
+
+  if (eventType === 'user.created') {
+    const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
+    
     const user = {
-      clerkId: id,
+      clerkId: id, // Store Clerk ID in MongoDB
       email: email_addresses[0].email_address,
-      username: username || '', // Provide fallback for username
+      username: username || '',
       firstName: first_name || '',
       lastName: last_name || '',
       photo: image_url || '',
     };
-
-
+  
+    console.log('Creating MongoDB user for Clerk ID:', id);
     const newUser = await createUser(user);
-
-    if(newUser) {
+    
+    if (newUser) {
+      // IMPORTANT: Store MongoDB _id in Clerk's publicMetadata
       await clerkClient.users.updateUserMetadata(id, {
         publicMetadata: {
-          userId: newUser._id
+          userId: newUser._id.toString() // Convert ObjectId to string
         }
-      })
+      });
+      console.log('Updated Clerk metadata with MongoDB userId:', newUser._id.toString());
     }
-
-    return NextResponse.json({ message: 'OK', user: newUser })
+  
+    return NextResponse.json({ message: 'OK', user: newUser });
   }
 
   if (eventType === 'user.updated') {
     const {id, image_url, first_name, last_name, username } = evt.data
 
-    // const user = {
-    //   firstName: first_name,
-    //   lastName: last_name,
-    //   username: username!,
-    //   photo: image_url,
-    // }
     
     const updatedUser = await updateUser(id, {
       firstName: first_name || '',
@@ -107,8 +118,6 @@ export async function POST(req: Request) {
       username: username || '',
       photo: image_url || '',
     })
-
-    // const updatedUser = await updateUser(id, user)
 
     return NextResponse.json({ message: 'OK', user: updatedUser })
   }
