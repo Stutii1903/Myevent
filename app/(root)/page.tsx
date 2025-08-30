@@ -9,6 +9,8 @@ import Collection from "@/components/shared/Collection";
 // import Search from '@/components/shared/Search';
 
 export default async function Home({ searchParams }: SearchParamProps) {
+
+  const resolvedSearchParams = await searchParams;
   const page = Number(searchParams?.page) || 1;
   const searchText = (searchParams?.query as string) || '';
   const category = (searchParams?.category as string) || '';
@@ -26,7 +28,7 @@ export default async function Home({ searchParams }: SearchParamProps) {
     <section className="bg-primary-50 bg-dotted-pattern bg-contain py-5 md:py-10" >
     <div className="wrapper grid grid-cols-1 gap-5 md:grid-cols-2 2xl:gap-0">
       <div className="flex flex-col justify-center gap-8">
-        <h1 className="h1-bold"> Create, Connect , Celebrate : Your Events , Our Platform!</h1>
+        <h1 className="h1-bold"> Create,Connect,Celebrate : Your Events , Our Platform!</h1>
         <p className="p-reguler-20 md:p-regular-24">Book and learn helpful tips from college events with our college community.</p>
     <Button size="lg" asChild className="button w-full sm:w-fit">
       <Link href="#events">

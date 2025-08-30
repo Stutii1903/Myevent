@@ -1,4 +1,5 @@
 import mongoose, { Document, model, models, Schema } from "mongoose";
+import { ReactNode } from "react";
 
 export interface IEvent extends Document{
     _id: string;
@@ -9,12 +10,12 @@ export interface IEvent extends Document{
     imageUrl: string;
     startDateTime: Date;
     endDateTime: Date;
-    price?: string;
+    price: string;
     isFree: boolean;
     url?: string;
     category: {_id: string,name: string}
     organizer: {
-        lastName: ReactNode;_id: string,firstName: string, LastName: string
+    lastName: ReactNode;_id: string,firstName: string, LastName: string
 }
 
 }

@@ -25,7 +25,7 @@
     "@uploadthing/shared": "^7.1.8",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
-    "effect": "^3.14.21",
+    "effect": "^3.15.2",
     "load-stripe": "^1.0.3",
     "lucide-react": "^0.364.0",
     "mongodb": "^6.5.0",
@@ -50,5 +50,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "overrides": {
+    "effect": "^3.15.2"
   }
 }

@@ -1,13 +1,19 @@
+"use client"
+
 import React, { useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js';
 import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
 import { checkoutOrder } from '@/lib/actions/order.actions';
-import {Order} from '@/lib/types';
+import { Order } from '@/lib/types';
+import { createOrder } from '@/lib/actions/order.actions';
 
-loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+
+
+const Checkout  = ({ event, userId }: { event: IEvent, userId: string }) => {
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
@@ -22,15 +28,16 @@ const Checkout = ({ event, userId }: { event: IEvent, userId: string }) => {
 
   const onCheckout = async () => {
     const order = {
-      eventTitle: event.title,
-      eventId: event._id,
-      price: event.price,
-      isFree: event.isFree,
-      buyerId: userId
+        eventTitle : event.title,  
+        eventId: event._id,
+        price: event.price,    
+        isFree: event.isFree,              // ObjectId reference
+        buyerId: userId,                       // ObjectId reference  
+        // totalAmount: event.isFree ? '0' : event.price.toString(),
     }
 
     await checkoutOrder(order);
-  }
+  };
 
   return (
     <form action={onCheckout} method="post">

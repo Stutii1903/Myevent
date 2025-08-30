@@ -37,29 +37,6 @@ const getCategoryByName = async (name: string) => {
     }
   }
 
-//         const newEvent = await Event.create({
-//             title: event.title,
-//             description: event.description,
-//             location: event.location,
-//             imageUrl: event.imageUrl,
-//             startDateTime: event.startDateTime,
-//             endDateTime: event.endDateTime,
-//             price: event.price,
-//             isFree: event.isFree,
-//             url: event.url,
-//             category: event.categoryId,
-//             organizer: userId
-//         });
-//         revalidatePath(path)
-
-//         return JSON.parse(JSON.stringify(newEvent));
-//     } catch (error) {
-
-//         handleError(error);
-//         throw error;
-//     }
-// };
-
 
 export const getEventById = async (eventId: string)=>  {
     try {

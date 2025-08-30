@@ -7,13 +7,14 @@ import { handleError } from '../utils';
 import { connectToDatabase } from '../database';
 import Order from '../database/models/order.model';
 import Event from '../database/models/event.model';
-import {ObjectId} from 'mongodb';
+import { ObjectId } from 'mongodb';
 import User from '../database/models/user.model';
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
   const price = order.isFree ? 0 : Number(order.price) * 100;
+
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -52,6 +53,8 @@ export const createOrder = async (order: CreateOrderParams) => {
       ...order,
       event: order.eventId,
       buyer: order.buyerId,
+      stripeId: order.stripeId,
+      totalAmount: order.totalAmount,
     });
 
     return JSON.parse(JSON.stringify(newOrder));
@@ -115,7 +118,26 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
     handleError(error)
   }
 }
-
+export const handleStripeWebhook = async (event: Stripe.Event) => {
+    try {
+      if (event.type === 'checkout.session.completed') {
+        const session = event.data.object as Stripe.Checkout.Session;
+        
+        const orderData: CreateOrderParams = {
+          stripeId: session.id,
+          eventId: session.metadata?.eventId || '',
+          buyerId: session.metadata?.buyerId || '',
+          totalAmount: ((session.amount_total || 0) / 100).toString(),
+          createdAt: new Date()
+        };
+        
+        await createOrder(orderData);
+      }
+    } catch (error) {
+      console.error('Webhook error:', error);
+      throw error;
+    }
+  }
 // GET ORDERS BY USER
 export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUserParams) {
   try {
@@ -146,3 +168,4 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
     handleError(error)
   }
 }
+
