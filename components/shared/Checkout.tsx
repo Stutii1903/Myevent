@@ -6,7 +6,7 @@ import { IEvent } from '@/lib/database/models/event.model';
 import { Button } from '../ui/button';
 import { checkoutOrder } from '@/lib/actions/order.actions';
 import { Order } from '@/lib/types';
-import { createOrder } from '@/lib/actions/order.actions';
+
 
 
 
@@ -33,7 +33,7 @@ const Checkout  = ({ event, userId }: { event: IEvent, userId: string }) => {
         price: event.price,    
         isFree: event.isFree,              // ObjectId reference
         buyerId: userId,                       // ObjectId reference  
-        // totalAmount: event.isFree ? '0' : event.price.toString(),
+        totalAmount: event.isFree ? '0' : event.price.toString(),
     }
 
     await checkoutOrder(order);

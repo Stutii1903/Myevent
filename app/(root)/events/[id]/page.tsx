@@ -7,16 +7,12 @@ import { notFound } from 'next/navigation';
 import React from 'react'
 import Image from 'next/image';
 import Collection from '@/components/shared/Collection';
+import { auth } from '@clerk/nextjs'
 
 
 
 const EventDetails  = async({params: {id} , searchParams }: SearchParamProps) => {
-  // const event = await getEventById(id);
-  // const relatedEvents = await getRelatedEventsByCategory({
-  //   categoryId: event.category._id,
-  //   eventId: event._id,
-  //   page: searchParams.page as string,
-  // })
+
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return notFound(); // shows 404 page
   }

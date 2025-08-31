@@ -4,9 +4,7 @@ import Link from "next/link";
 import { SearchParamProps } from "@/lib/types";
 import { getAllEvents } from "@/lib/actions/event.actions";
 import Collection from "@/components/shared/Collection";
-// import CategoryFilter from '@/components/shared/CategoryFilter';
-// import Collection from '@/components/shared/Collection'
-// import Search from '@/components/shared/Search';
+
 
 export default async function Home({ searchParams }: SearchParamProps) {
   // Await searchParams before using its properties
@@ -22,6 +20,8 @@ export default async function Home({ searchParams }: SearchParamProps) {
     page,
     limit: 6
   });
+
+  console.log('Homepage events:', events);
 
   return (
     <>

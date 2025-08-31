@@ -4,10 +4,7 @@ export default authMiddleware({
   publicRoutes: [
     '/',
     '/events/:id',
-    '/api/webhook/clerk',
     '/api/webhook/stripe',
-    '/api/uploadthing',
-    '/api/test-db',
     '/favicon.ico',
     '/sign-in(.*)',
     '/sign-up(.*)',
@@ -16,8 +13,9 @@ export default authMiddleware({
     '/public/dotted-pattern.png'
   ],
   ignoredRoutes: [
-    '/api/webhook/clerk',
+  
     '/api/webhook/stripe',
+    '/api/webhook/clerk',
     '/api/uploadthing',
     '/api/test-db'
   ]
@@ -26,7 +24,8 @@ export default authMiddleware({
 export const config = {
   matcher: [
     // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+ 
+   '/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)',
     // Always run for API routes
     '/(api|trpc)(.*)',
   ],
