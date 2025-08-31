@@ -4,7 +4,7 @@ import { createOrder } from '@/lib/actions/order.actions'
 
 // Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // apiVersion: '2024-06-20', // Use API version 2024-06-20
+  apiVersion: '2024-06-20' as any, 
 })
 
 export async function POST(request: Request) {
