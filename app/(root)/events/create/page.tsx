@@ -3,33 +3,6 @@ import EventForm from "@/components/shared/EventForm"
 import React from "react";
 import { auth } from "@clerk/nextjs/server";
 
-// const CreateEvent = async () => {
-//   try {
-//     // Use currentUser() instead of auth() to avoid headers() issues
-//     const clerkUser = await currentUser();
-    
-//     if (!clerkUser) {
-//       return (
-//         <div className="wrapper my-8">
-//           <p>Please sign in to create an event.</p>
-//         </div>
-//       );
-//     }
-
-//     // Get the MongoDB userId from Clerk's publicMetadata
-//     const userId = clerkUser.publicMetadata?.userId as string;
-    
-//     console.log('Clerk User ID:', clerkUser.id);
-//     console.log('MongoDB User ID:', userId);
-    
-//     if (!userId) {
-//       console.error('No userId found in session claims');
-//       return (
-//         <div className="wrapper my-8">
-//           <p>Please sign in to create an event.</p>
-//         </div>
-//       );
-//     }
 const CreateEvent = async () => {
   const { userId } = await auth(); // Use userId directly, not sessionClaims
   

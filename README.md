@@ -1,36 +1,137 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+SPAS – Event & Category Management Platform
 
-## Getting Started
+SPAS is a full-stack MERN + Next.js application designed to manage events, categories, bookings, payments, and media uploads with a modern, scalable architecture.
 
-First, run the development server:
+⸻
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🚀 Tech Stack
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend
+	•	Next.js 14 (App Router) – File-based routing, server components, optimized rendering
+	•	React – Component-based UI
+	•	Tailwind CSS – Utility-first modern styling
+	•	ShadCN/UI – Reusable UI components (Button, Dialog, Sheet, Select, etc.)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Backend
+	•	Node.js & Next.js Server Actions
+	•	MongoDB with Mongoose – Database + models
+	•	Stripe Webhooks – Payments & invoice updates
+	•	Clerk Authentication – Secure login/signup
+	•	UploadThing – File uploads (images/documents)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Other Tools
+	•	TypeScript – Type safety
+	•	Vercel – Hosting and deployment
+	•	Figma (UI planning)
 
-## Learn More
+⸻
 
-To learn more about Next.js, take a look at the following resources:
+📌 Core Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+🟦 User & Auth
+	•	Secure login & signup via Clerk
+	•	Middleware-based auth protection (middleware.ts)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+🟧 Events Management
+	•	Create event
+	•	Update event
+	•	Delete event
+	•	View event details
 
-## Deploy on Vercel
+Location:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+/app/(root)/events/
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+🟩 Categories
+	•	Create, list, and update categories
+	•	Used to classify events
+
+🟪 Orders & Payments
+	•	Stripe integration (sandbox mode)
+	•	Payment success/failure handling
+	•	Webhook verification
+
+🟫 Image Uploads
+	•	UploadThing integration
+	•	Drag-and-drop upload UI
+	•	Server route handling
+
+Routes:
+
+/app/api/uploadthing/*
+
+
+⸻
+
+📁 Folder Structure (Overview)
+
+app/
+  (root)/
+    events/
+    orders/
+    page.tsx
+  (auth)/
+    sign-in/
+    sign-up/
+  api/
+    webhook/
+      stripe/
+      clerk/
+    uploadthing/
+components/ui/
+constants/
+
+(Full file list provided in project_structure.txt)
+
+⸻
+
+🖼️ Screenshots 
+
+All screenshots related to the application UI are stored here:
+
+/screenshots Folder
+
+![Home Page](./screenshots/home.png)
+![Events Page](./screenshots/eventPage.png)
+![related events](./screenshots/bottom.png)
+![Event Create](./screenshots/createEvent.png)
+![Event wall](./screenshots/eventGrid.png)
+![login/signin](./screenshots/signin.png)
+![profile](./screenshots/profile.png)
+
+⸻
+
+⚙️ Environment Variables
+
+Create a .env.local file:
+
+MONGODB_URI=
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+UPLOADTHING_SECRET=
+UPLOADTHING_APP_ID=
+
+
+⸻
+
+🧪 Testing APIs
+
+Use Postman / Thunder Client for testing:
+	•	/api/uploadthing – For media uploads
+	•	/api/webhook/stripe – For payment confirmation
+	•	/api/test-db – For database connection check
+
+⸻
+
+🚀 Deployment Notes
+	•	Hosted on Vercel
+	•	Make sure to add all environment variables
+	•	Stripe Webhooks must be updated using Vercel deployment URL
+
+⸻
+
+🙌 Author
+
+Jenny – Aspiring Full-stack Developer
